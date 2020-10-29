@@ -10,7 +10,6 @@ package middleware
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"github.com/oktopriima/lemonilo/domain/config"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
@@ -41,15 +40,13 @@ func NewCustomAuth(signature []byte) CustomAuth {
 }
 
 func (cAuth *customAuth) GenerateToken(data TokenStructure) (response TokenResponse, err error) {
-	cfg := config.NewConfig()
-
 	token := jwt.New(jwt.SigningMethodHS512)
 	claims := token.Claims.(jwt.MapClaims)
 
 	expiredIn := time.Hour * (24 * 7)
 	expiredAt := time.Now().Add(time.Hour * (24 * 7))
 
-	myCrypt, err := bcrypt.GenerateFromPassword([]byte(cfg.GetString("app.signature")), 8)
+	myCrypt, err := bcrypt.GenerateFromPassword(cAuth.signature, 8)
 	if err != nil {
 		return
 	}

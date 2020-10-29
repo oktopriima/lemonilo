@@ -8,12 +8,10 @@
 
 package users
 
-import "github.com/oktopriima/lemonilo/application/request"
-
-func (u *userController) FindPagedController(req request.UserRequest) (interface{}, error) {
+func (u *userController) FindPagedController() (interface{}, error) {
 	// example of criteria
 	// criteria := make(map[string]interface{})
-	// criteria["email"] = req.Email
+	// criteria["email"] = octoprima93@gmail.com
 
 	data, err := u.userRepo.FindBy(nil)
 	if err != nil {

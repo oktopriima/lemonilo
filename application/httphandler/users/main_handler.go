@@ -26,22 +26,6 @@ type userHandler struct {
 	user users.UserController
 }
 
-func (u *userHandler) FindHandler(ctx *gin.Context) {
-	panic("implement me")
-}
-
-func (u *userHandler) FindPagedHandler(ctx *gin.Context) {
-	panic("implement me")
-}
-
-func (u *userHandler) DeleteHandler(ctx *gin.Context) {
-	panic("implement me")
-}
-
-func (u *userHandler) UpdateHandler(ctx *gin.Context) {
-	panic("implement me")
-}
-
 func NewUserHandler(user users.UserController) UserHandler {
 	return &userHandler{user}
 }

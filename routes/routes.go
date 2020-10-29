@@ -10,6 +10,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/oktopriima/lemonilo/application/httphandler/auth"
 	"github.com/oktopriima/lemonilo/application/httphandler/users"
 	"github.com/oktopriima/lemonilo/domain/middleware"
 )
@@ -17,6 +18,7 @@ import (
 func InvokeRoute(
 	engine *gin.Engine,
 	user users.UserHandler,
+	auth auth.AuthenticationHandler,
 ) {
 	route := engine.Group("lemonilo-api/")
 
@@ -34,6 +36,19 @@ func InvokeRoute(
 		userRoute.GET("", user.FindPagedHandler)
 		userRoute.PUT(":id", user.UpdateHandler)
 		userRoute.DELETE(":id", user.DeleteHandler)
+	}
+
+	// login
+	{
+		loginRoute := route.Group("auth")
+		loginRoute.POST("", auth.LoginHandler)
+	}
+
+	// endpoint with token
+	{
+		authRoute := route.Group("me")
+		authRoute.Use(middleware.MyAuth("app"))
+		authRoute.GET("", user.FindHandler)
 	}
 
 }

@@ -10,19 +10,23 @@ package users
 
 import (
 	"github.com/jinzhu/copier"
-	"time"
-
 	"github.com/oktopriima/lemonilo/application/request"
 	"github.com/oktopriima/lemonilo/domain/core/model"
+	"golang.org/x/crypto/bcrypt"
 )
 
-func (u *userController) CreateController(request request.UserRequest) (interface{}, error) {
+func (u *userController) CreateController(req request.UserRequest) (interface{}, error) {
 	user := new(model.User)
 
-	if err := copier.Copy(&user, &request); err != nil {
+	if err := copier.Copy(&user, &req); err != nil {
 		return nil, err
 	}
-	user.LastLogin = time.Now()
+
+	password, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, err
+	}
+	user.Password = string(password)
 
 	tx := u.db.Begin()
 	defer tx.Rollback()

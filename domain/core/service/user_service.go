@@ -17,6 +17,7 @@ import (
 type UserService interface {
 	Create(user *model.User, tx *gorm.DB) (*model.User, error)
 	Find(ID int) (*model.User, error)
+	FindOneBy(criteria map[string]interface{}) (*model.User, error)
 	FindBy(criteria map[string]interface{}) ([]*model.User, error)
 	Update(user *model.User, tx *gorm.DB) error
 	Delete(user *model.User, tx *gorm.DB) error
@@ -24,6 +25,14 @@ type UserService interface {
 
 type userService struct {
 	db *gorm.DB
+}
+
+func (u *userService) FindOneBy(criteria map[string]interface{}) (*model.User, error) {
+	data := new(model.User)
+	if err := u.db.Where(criteria).Find(&data).Error; err != nil {
+		return nil, err
+	}
+	return data, nil
 }
 
 func (u *userService) Create(user *model.User, tx *gorm.DB) (*model.User, error) {

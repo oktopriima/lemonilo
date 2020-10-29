@@ -18,7 +18,7 @@ import (
 type UserController interface {
 	CreateController(req request.UserRequest) (interface{}, error)
 	FindController(req request.UserRequest) (interface{}, error)
-	FindPagedController(req request.UserRequest) (interface{}, error)
+	FindPagedController() (interface{}, error)
 	UpdateController(req request.UserRequest) (interface{}, error)
 	DeleteController(req request.UserRequest) (interface{}, error)
 }

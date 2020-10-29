@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/copier"
 	"github.com/oktopriima/lemonilo/application/request"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (u *userController) UpdateController(req request.UserRequest) (interface{}, error) {
@@ -22,6 +23,14 @@ func (u *userController) UpdateController(req request.UserRequest) (interface{},
 
 	if err = copier.Copy(&data, &req); err != nil {
 		return nil, fmt.Errorf("failed assign request data to model. err : %v", err)
+	}
+
+	if req.Password != "" {
+		password, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+		if err != nil {
+			return nil, err
+		}
+		data.Password = string(password)
 	}
 
 	tx := u.db.Begin()

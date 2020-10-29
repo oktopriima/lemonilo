@@ -1,17 +1,14 @@
 /*
 * project lemonilo
-* created by oktoprima
+* created by oktopriima
 * email : octoprima93@gmail.com
 * github : https://github.com/oktopriima
-* created at 21.46
+* created at 00:01
 **/
 
 package request
 
-type UserRequest struct {
-	ID       int    `uri:"id"`
-	Name     string `json:"name"`
+type LoginRequest struct {
 	Email    string `json:"email"`
-	Address  string `json:"address"`
 	Password string `json:"password"`
 }

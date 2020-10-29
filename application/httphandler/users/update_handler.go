@@ -1,35 +1,38 @@
 /*
 * project lemonilo
-* created by oktoprima
+* created by oktopriima
 * email : octoprima93@gmail.com
 * github : https://github.com/oktopriima
-* created at 22.05
+* created at 23:52
 **/
 
 package users
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
-
 	"github.com/oktopriima/lemonilo/application/request"
 	"github.com/oktopriima/lemonilo/domain/response"
+	"net/http"
 )
 
-func (u *userHandler) CreateHandler(ctx *gin.Context) {
+func (u *userHandler) UpdateHandler(ctx *gin.Context) {
 	var req request.UserRequest
+
+	if err := ctx.ShouldBindUri(&req); err != nil {
+		response.NewErrorResponse(ctx, http.StatusBadRequest, err)
+		return
+	}
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		response.NewErrorResponse(ctx, http.StatusBadRequest, err)
 		return
 	}
 
-	result, err := u.user.CreateController(req)
+	resp, err := u.user.UpdateController(req)
 	if err != nil {
-		response.NewErrorResponse(ctx, http.StatusUnprocessableEntity, err)
+		response.NewErrorResponse(ctx, http.StatusBadRequest, err)
 		return
 	}
 
-	response.NewSuccessResponse(ctx, result)
+	response.NewSuccessResponse(ctx, resp)
 }

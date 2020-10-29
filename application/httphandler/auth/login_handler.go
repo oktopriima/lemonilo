@@ -1,35 +1,32 @@
 /*
 * project lemonilo
-* created by oktoprima
+* created by oktopriima
 * email : octoprima93@gmail.com
 * github : https://github.com/oktopriima
-* created at 22.05
+* created at 00:22
 **/
 
-package users
+package auth
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
-
 	"github.com/oktopriima/lemonilo/application/request"
 	"github.com/oktopriima/lemonilo/domain/response"
+	"net/http"
 )
 
-func (u *userHandler) CreateHandler(ctx *gin.Context) {
-	var req request.UserRequest
-
+func (a *authenticationHandler) LoginHandler(ctx *gin.Context) {
+	var req request.LoginRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		response.NewErrorResponse(ctx, http.StatusBadRequest, err)
 		return
 	}
 
-	result, err := u.user.CreateController(req)
+	resp, err := a.auth.LoginController(req)
 	if err != nil {
-		response.NewErrorResponse(ctx, http.StatusUnprocessableEntity, err)
+		response.NewErrorResponse(ctx, http.StatusBadRequest, err)
 		return
 	}
 
-	response.NewSuccessResponse(ctx, result)
+	response.NewSuccessResponse(ctx, resp)
 }

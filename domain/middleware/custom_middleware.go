@@ -27,15 +27,11 @@ var myRole map[string][]string
 
 func NewMiddlewareConfig(cfg config.Config) (error, interface{}) {
 	var err error
-	admin := strings.Split(cfg.GetString("permission.admin"), ",")
-	merchant := strings.Split(cfg.GetString("permission.merchant"), ",")
-	customer := strings.Split(cfg.GetString("permission.customer"), ",")
+	app := strings.Split(cfg.GetString("permission.app"), ",")
 	signature := cfg.GetString("app.signature")
 
 	role := make(map[string][]string)
-	role["admin"] = admin
-	role["merchant"] = merchant
-	role["customer"] = customer
+	role["app"] = app
 
 	InitRole(role)
 	InitJWTMiddlewareCustom([]byte(signature), jwt.SigningMethodHS512)
