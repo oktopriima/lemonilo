@@ -4,3 +4,5 @@ env.yaml
 dbconfig.yml
 lemonilo
 vendor
+generate-model.sh
+dbconfig-example.yml

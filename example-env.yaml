@@ -17,6 +17,4 @@ cors:
   allowed_origins: '*'
 
 permission:
-  admin: administrator,marketing,cx,product,logistic
-  merchant: administrator,merchant
-  customer: administrator,customer,merchant,marketing,cx,product,logistic
+  app: app,website
