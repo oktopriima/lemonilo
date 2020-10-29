@@ -171,3 +171,11 @@ func checkRole(r *http.Request, roles string) (err error) {
 	err = errors.New("access denied")
 	return err
 }
+
+func GetAuthenticatedUser(r *http.Request) (int64, error) {
+	userID, err := ExtractToken(r, "user_id")
+	if err != nil {
+		return 0, err
+	}
+	return int64(userID.(float64)), nil
+}

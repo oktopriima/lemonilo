@@ -1,12 +1,8 @@
 app:
-  version:
-    tag: v
-    value: 1
-  lang: id
   signature: 5i6naTurE
 
 server:
-  address: :5000
+  address: 5000
 
 mysql:
   address: 127.0.0.1

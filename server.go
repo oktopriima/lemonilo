@@ -9,6 +9,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -26,7 +27,7 @@ func NewRoute(cfg config.Config, engine *gin.Engine) *ServerRoute {
 }
 
 func (s *ServerRoute) Run() {
-	if err := s.engine.Run(s.cfg.GetString("server.address")); err != nil {
+	if err := s.engine.Run(fmt.Sprintf(":%s", s.cfg.GetString("server.address"))); err != nil {
 		log.Fatal(err)
 	}
 }

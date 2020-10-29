@@ -10,17 +10,15 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/oktopriima/lemonilo/domain/middleware"
 	"github.com/oktopriima/lemonilo/application/httphandler/users"
-	"github.com/oktopriima/lemonilo/domain/config"
+	"github.com/oktopriima/lemonilo/domain/middleware"
 )
 
 func InvokeRoute(
 	engine *gin.Engine,
 	user users.UserHandler,
 ) {
-	conf := config.NewConfig()
-	route := engine.Group("api/" + conf.GetString("app.version.tag") + conf.GetString("app.version.value"))
+	route := engine.Group("lemonilo-api/")
 
 	route.Use(gin.Logger())
 	route.Use(gin.Recovery())
@@ -32,6 +30,10 @@ func InvokeRoute(
 	{
 		userRoute := route.Group("users")
 		userRoute.POST("", user.CreateHandler)
+		userRoute.GET(":id", user.FindHandler)
+		userRoute.GET("", user.FindPagedHandler)
+		userRoute.PUT(":id", user.UpdateHandler)
+		userRoute.DELETE(":id", user.DeleteHandler)
 	}
 
 }

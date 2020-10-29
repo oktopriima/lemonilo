@@ -11,13 +11,13 @@ package container
 import (
 	"go.uber.org/dig"
 
-	"github.com/oktopriima/lemonilo/domain/core/services"
+	"github.com/oktopriima/lemonilo/domain/core/service"
 )
 
 func BuildServiceContainer(container *dig.Container) *dig.Container {
 	var err error
 
-	if err = container.Provide(services.NewUserServices); err != nil {
+	if err = container.Provide(service.NewUserService); err != nil {
 		panic(err)
 	}
 
